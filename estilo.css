@@ -1,0 +1,37 @@
+div, header, article {
+    border: 1px solid black;
+    margin: 2px;
+    padding: 2px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.producto {
+    display: inline-block;
+    width:calc(25% - 10px); height:170px;
+}
+
+.unidades {
+    width:50px;
+}
+
+#items {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-image {
+    margin-right: 10px;
+    width:50px; height:50px;
+}
+
+.divCantidadBoton {
+    display: flex;
+    align-items: center;
+}
+
+.sumarCantidad {
+    height: 20px;
+    position: relative;
+    left: 10px;
+}
+
