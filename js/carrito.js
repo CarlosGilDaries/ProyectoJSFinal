@@ -2,20 +2,6 @@ let items = document.getElementById('items');
 let lista = document.getElementById('lista-carrito');
 let total = document.getElementById('total');
 
-fetch('php/productos.php')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        productos(data);
-    })
-    .catch(error => {
-        console.log(error);
-    });
-
 
 function botonCantidad(id) {
     let cantidad = document.getElementById(id);
@@ -47,7 +33,10 @@ function botonCantidad(id) {
             localStorage.removeItem(nombreProducto); 
             elementoLista.remove(); 
             actualizarTotal();
-            cantidad.textContent = 0;
+            let cantidadElemento = document.getElementById(nombreProducto + "Cantidad");
+            if (cantidadElemento) {
+                cantidadElemento.textContent = 0;
+            }
         });
     } else {
         // Si ya existe en localStorage, actualizamos la cantidad
@@ -64,7 +53,10 @@ function botonCantidad(id) {
             localStorage.removeItem(nombreProducto);
             elementoLista.remove(); 
             actualizarTotal();
-            cantidad.textContent = 0;
+            let cantidadElemento = document.getElementById(nombreProducto + "Cantidad");
+            if (cantidadElemento) {
+                cantidadElemento.textContent = 0;
+            }
         });
     }
 
@@ -104,7 +96,11 @@ function productos(data) {
         producto.appendChild(divCantidadBoton);
         divCantidadBoton.appendChild(divCantidad);
         divCantidad.appendChild(cantidad);
-        cantidad.textContent = 0;
+        if (localStorage.getItem(element.nombre)) {
+            cantidad.textContent = localStorage.getItem(element.nombre);
+        } else {
+            cantidad.textContent = 0;
+        }
         divCantidadBoton.appendChild(sumar);
         sumar.textContent = "+";
     });
@@ -143,7 +139,10 @@ function cargarCarrito() {
             localStorage.removeItem(nombreProducto);
             elementoLista.remove(); 
             actualizarTotal();
-            cantidad.textContent = 0;
+            let cantidadElemento = document.getElementById(nombreProducto + "Cantidad");
+            if (cantidadElemento) {
+                cantidadElemento.textContent = 0;
+            }
         });
     }
     actualizarTotal();
@@ -162,3 +161,17 @@ function actualizarTotal() {
     total.textContent = totalCarrito.toFixed(2); // Mostrar el total con dos decimales
 }
 
+
+fetch('php/productos.php')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        productos(data);
+    })
+    .catch(error => {
+        console.log(error);
+    });
